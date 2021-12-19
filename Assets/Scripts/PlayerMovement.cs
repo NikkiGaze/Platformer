@@ -18,17 +18,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform _groundCollider;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _jumpOffset;
+    [SerializeField] private Animator _animator;
+    
     
     private bool _isGrounded = false;
+    private float _direction = 0;
     private Rigidbody2D _rigidbody;
-    private Animator _animator;
     private static readonly int IsRunning = Animator.StringToHash("IsRunning");
     private static readonly int IsJumping = Animator.StringToHash("IsJumping");
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -52,6 +53,11 @@ public class PlayerMovement : MonoBehaviour
         UpdateAnimations(direction, isJump);
     }
 
+    public float GetDirection()
+    {
+        return _direction;
+    }
+
     private void Jump()
     {
         if (_isGrounded)
@@ -64,7 +70,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_isGrounded)
         {
+            _direction = Mathf.Sign(direction);
             _rigidbody.velocity = new Vector2(_curve.Evaluate(direction) * _horizontalSpeed, _rigidbody.velocity.y);
+            transform.localScale = new Vector2(_direction, 1);
+            
         }
     }
 
