@@ -5,14 +5,19 @@ using UnityEngine;
 
 public class DamageDealer : MonoBehaviour
 {
-    [SerializeField] private int damage;
+    [SerializeField] private int _damage;
+    [SerializeField] private bool _isOneTime = true;
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out Health healthComponent))
+        if (other.attachedRigidbody.TryGetComponent(out Health healthComponent))
         {
-            healthComponent.TakeDamage(damage);
+            healthComponent.TakeDamage(_damage);
         }
-        
-        Destroy(gameObject);
+
+        if (_isOneTime)
+        {
+            Destroy(gameObject);
+        }
     }
 }

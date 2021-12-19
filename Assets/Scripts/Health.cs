@@ -22,6 +22,7 @@ public class Health : MonoBehaviour
         if (currentHP <= 0)
         {
             _isAlive = false;
+            Destroy(gameObject);
         }
     }
 }
