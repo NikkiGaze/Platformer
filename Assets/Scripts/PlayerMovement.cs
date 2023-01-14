@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private static readonly int IsRunning = Animator.StringToHash("IsRunning");
     private static readonly int IsJumping = Animator.StringToHash("IsJumping");
+    private float _input;
 
     private void Start()
     {
@@ -36,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
     {
         _isGrounded = Physics2D.OverlapCircle(
             _groundCollider.transform.position, _jumpOffset, _groundLayer);
+
+        Move(_input, false);
     }
 
     public void Move(float direction, bool isJump)
@@ -58,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         return _direction;
     }
 
-    private void Jump()
+    public void Jump()
     {
         if (_isGrounded)
         {
@@ -66,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     
-    private void HorizontalMovement(float direction)
+    void HorizontalMovement(float direction)
     {
         if (_isGrounded)
         {
@@ -77,6 +80,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void StartMoving(float direction)
+    {
+        _input = direction;
+    }
+    
+    public void StopMoving()
+    {
+        _input = 0.0f;
+    }
+    
     private void UpdateAnimations(float direction, bool isJump)
     {
         if (_rigidbody.velocity.y < 0.01 && !isJump)

@@ -31,4 +31,9 @@ public class PlayerInput : MonoBehaviour
             _shooter.Shoot(_playerMovement.GetDirection());
         }
     }
+
+    public void Shoot()
+    {
+        _shooter.Shoot(_playerMovement.GetDirection());
+    }
 }
